@@ -1,0 +1,315 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>College Management System Settings</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f7;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    /* Sidebar styling */
+    .sidebar {
+      height: 100vh;
+      width: 250px;
+      background-color: #333;
+      padding-top: 20px;
+      position: fixed;
+      transition: width 0.3s;
+    }
+    .sidebar a {
+      padding: 15px;
+      text-decoration: none;
+      font-size: 18px;
+      color: white;
+      display: block;
+    }
+    .sidebar a:hover {
+      background-color: #575757;
+    }
+
+    /* Main content styling */
+    .content {
+      margin-left: 260px;
+      padding: 20px;
+      width: calc(100% - 260px);
+      transition: margin-left 0.3s, width 0.3s;
+    }
+    .settings-section {
+      display: none;
+      margin: 20px 0;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #fff;
+    }
+    .settings-section label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .settings-section input,
+    .settings-section select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .settings-section input[type="checkbox"] {
+      width: auto;
+    }
+
+    h2 {
+      background-color: #f2f2f2;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+      .content {
+        margin-left: 0;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .sidebar a {
+        font-size: 16px;
+        padding: 12px;
+      }
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <a href="#" onclick="showSection('general-settings')">General Settings</a>
+    <a href="#" onclick="showSection('user-management')">User Management</a>
+    <a href="#" onclick="showSection('department-course-settings')">Department & Course Settings</a>
+    <a href="#" onclick="showSection('attendance-scheduling')">Attendance & Scheduling</a>
+    <a href="#" onclick="showSection('grading-system')">Grading System</a>
+    <a href="#" onclick="showSection('notifications-alerts')">Notifications & Alerts</a>
+    <a href="#" onclick="showSection('fee-management')">Fee Management</a>
+    <a href="#" onclick="showSection('backup-restore')">Backup & Restore</a>
+    <a href="#" onclick="showSection('customization-themes')">Customization & Themes</a>
+    <a href="#" onclick="showSection('security-settings')">Security Settings</a>
+  </div>
+
+  <!-- Main content -->
+  <div class="content">
+
+    <!-- General Settings -->
+    <div id="general-settings" class="settings-section">
+      <h2>General Settings</h2>
+      <label for="college-name">College Name:</label>
+      <input type="text" id="college-name" placeholder="Enter College Name">
+      
+      <label for="logo-upload">Upload Logo:</label>
+      <input type="file" id="logo-upload">
+      
+      <label for="academic-year-start">Academic Year Start:</label>
+      <input type="date" id="academic-year-start">
+      
+      <label for="academic-year-end">Academic Year End:</label>
+      <input type="date" id="academic-year-end">
+      
+      <label for="timezone">Time Zone:</label>
+      <select id="timezone">
+        <option value="GMT">GMT</option>
+        <option value="EST">EST</option>
+        <option value="CST">CST</option>
+      </select>
+    </div>
+
+    <!-- User Management -->
+    <div id="user-management" class="settings-section">
+      <h2>User Management</h2>
+      <label for="roles-permissions">Roles & Permissions:</label>
+      <select id="roles-permissions">
+        <option value="admin">Admin</option>
+        <option value="faculty">Faculty</option>
+        <option value="student">Student</option>
+      </select>
+      
+      <label for="password-policy">Password Complexity:</label>
+      <select id="password-policy">
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+      
+      <label for="2fa-toggle">Enable Two-Factor Authentication:</label>
+      <input type="checkbox" id="2fa-toggle">
+      
+      <label for="user-registration-toggle">Enable User Self-Registration:</label>
+      <input type="checkbox" id="user-registration-toggle">
+    </div>
+
+    <!-- Department & Course Settings -->
+    <div id="department-course-settings" class="settings-section">
+      <h2>Department & Course Settings</h2>
+      <label for="departments">Manage Departments:</label>
+      <input type="text" id="departments" placeholder="Add/Update/Delete Departments">
+      
+      <label for="course-management">Course Management:</label>
+      <input type="text" id="course-management" placeholder="Configure Courses">
+      
+      <label for="credit-hours">Credit Hours:</label>
+      <input type="number" id="credit-hours" placeholder="Enter Credit Hours">
+      
+      <label for="semester-system">Choose Semester System:</label>
+      <select id="semester-system">
+        <option value="semester">Semester</option>
+        <option value="yearly">Yearly</option>
+      </select>
+    </div>
+
+    <!-- Attendance & Scheduling -->
+    <div id="attendance-scheduling" class="settings-section">
+      <h2>Attendance & Scheduling</h2>
+      <label for="attendance-policy">Attendance Policy (%):</label>
+      <input type="number" id="attendance-policy" placeholder="Minimum Attendance Percentage">
+      
+      <label for="class-scheduling">Class Scheduling:</label>
+      <input type="text" id="class-scheduling" placeholder="Enter Class Timings">
+      
+      <label for="exam-schedules">Examination Schedules:</label>
+      <input type="text" id="exam-schedules" placeholder="Create Exam Schedule">
+    </div>
+
+    <!-- Grading System -->
+    <div id="grading-system" class="settings-section">
+      <h2>Grading System</h2>
+      <label for="grade-scale">Grade Scale:</label>
+      <input type="text" id="grade-scale" placeholder="A, B, C percentages">
+      
+      <label for="gpa-calculation">Grade Calculation:</label>
+      <input type="text" id="gpa-calculation" placeholder="Define GPA/CGPA Rules">
+      
+      <label for="result-publishing-toggle">Enable Result Publishing:</label>
+      <input type="checkbox" id="result-publishing-toggle">
+    </div>
+
+    <!-- Notifications & Alerts -->
+    <div id="notifications-alerts" class="settings-section">
+      <h2>Notifications & Alerts</h2>
+      <label for="email-settings">Email Server Settings:</label>
+      <input type="text" id="email-settings" placeholder="SMTP Settings">
+      
+      <label for="sms-integration">SMS Integration:</label>
+      <input type="text" id="sms-integration" placeholder="Setup SMS Alerts">
+      
+      <label for="event-reminders-toggle">Enable Event Reminders:</label>
+      <input type="checkbox" id="event-reminders-toggle">
+    </div>
+
+    <!-- Fee Management -->
+    <div id="fee-management" class="settings-section">
+      <h2>Fee Management</h2>
+      <label for="fee-structure">Fee Structure:</label>
+      <input type="text" id="fee-structure" placeholder="Setup Fee Structure">
+      
+      <label for="payment-methods">Payment Methods:</label>
+      <select id="payment-methods">
+        <option value="online">Online</option>
+        <option value="bank-transfer">Bank Transfer</option>
+      </select>
+      
+      <label for="late-fee-policy">Late Fee Policy:</label>
+      <input type="text" id="late-fee-policy" placeholder="Define Late Fee Policy">
+    </div>
+
+    <!-- Backup & Restore -->
+    <div id="backup-restore" class="settings-section">
+      <h2>Backup & Restore</h2>
+      <label for="backup-frequency">Backup Frequency:</label>
+      <select id="backup-frequency">
+        <option value="daily">Daily</option>
+        <option value="weekly">Weekly</option>
+        <option value="monthly">Monthly</option>
+      </select>
+      
+      <label for="restore-options">Restore Options:</label>
+      <input type="text" id="restore-options" placeholder="Restore from Backup">
+    </div>
+
+    <!-- Customization & Themes -->
+    <div id="customization-themes" class="settings-section">
+      <h2>Customization & Themes</h2>
+      <label for="theme-settings">Theme Settings:</label>
+      <input type="text" id="theme-settings" placeholder="Select Themes">
+      
+      <label for="dashboard-customization">Dashboard Customization:</label>
+      <input type="checkbox" id="dashboard-customization">
+    </div>
+
+    <!-- Security Settings -->
+    <div id="security-settings" class="settings-section">
+      <h2>Security Settings</h2>
+      <label for="session-timeout">Session Timeout (minutes):</label>
+      <input type="number" id="session-timeout" placeholder="Set Timeout">
+      
+      <label for="account-lockout">Account Lockout (failed attempts):</label>
+      <input type="number" id="account-lockout" placeholder="Define Lockout Attempts">
+      
+      <label for="data-encryption-toggle">Enable Data Encryption:</label>
+      <input type="checkbox" id="data-encryption-toggle">
+    </div>
+
+    <button onclick="saveSettings()">Save Settings</button>
+
+  </div>
+
+  <script>
+    // Function to show only the selected section and hide others
+    function showSection(sectionId) {
+      // Hide all sections
+      var sections = document.getElementsByClassName('settings-section');
+      for (var i = 0; i < sections.length; i++) {
+        sections[i].style.display = 'none';
+      }
+
+      // Show the selected section
+      document.getElementById(sectionId).style.display = 'block';
+    }
+
+    // Function to save settings (placeholder, adjust to your needs)
+    function saveSettings() {
+      alert('Settings saved successfully!');
+    }
+
+    // Show General Settings by default
+    showSection('general-settings');
+  </script>
+
+</body>
+</html>

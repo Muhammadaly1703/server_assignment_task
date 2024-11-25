@@ -1,0 +1,59 @@
+<!Doctype>
+<html>
+<head>
+<style>
+
+div.nn{
+margin-left:600px;
+margin-right:600px;
+text-align:center;
+background-color:green;
+padding-bottom:20px;
+padding-top:20px;
+border-radius:5%;}
+
+
+</style>
+</head>
+<body style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQphO1iGa3a8wJpd43zAbREvXa8q4DmAIKww&s');background-size:cover;">
+
+<div class="nn" id="yy">
+<label id="mm" style="background-color:pink;color:white;padding-left:55px;padding-right:55px;font-size:20px;">First Name</label><br><br>
+<input type="text" value="your name" style="padding:10px;width:300px"><br><br>
+<label id="vv"  style="background-color:blue;color:white;padding-left:55px;padding-right:55px;font-size:20px;">Last Name</label><br><br>
+<input type="text" value="your email" style="padding:10px;width:300px"><br><br>
+<label id="cc" style="background-color:black;color:white;padding-left:55px;padding-right:55px;font-size:20px;">Subject</label><br><br>
+<input type="text" value="write something." style="padding:50px;width:300px">
+<p  id="ms"style="font-size:20px;background-color:9C33FF;color:white;">By submit this form you agree to our<br>privacy policy</p>
+<button id="ff" style="padding:20px;background-color:red;color:white">REGISTER</button>
+</div>
+<button id="show">show</button>
+<button id="hide">hide</button>
+
+
+<script type="text/javascript">
+document.getElementById("ff").onclick=function(){
+document.getElementById("ms").innerHTML="PERSONAL DATA ENTER FOR THIS FORM";
+document.getElementById("mm").innerHTML="HIGH NAME";
+document.getElementById("vv").innerHTML="LOW NAME";
+document.getElementById("cc").innerHTML="SECURITY DATA";
+document.getElementById("ff").innerHTML="SUBMIT";
+
+document.getElementById("yy").style.backgroundColor="red";
+document.getElementById("mm").style.backgroundColor="yellow";
+document.getElementById("vv").style.backgroundColor="black";
+document.getElementById("cc").style.backgroundColor="blue";
+document.getElementById("ms").style.backgroundColor="brown";
+document.getElementById("ff").style.backgroundColor="orange";
+
+document.getElementById("yy").style.color="Yellow";
+document.getElementById("mm").style.color="red";
+document.getElementById("vv").style.color="brown";
+document.getElementById("cc").style.color="orange";
+document.getElementById("ms").style.color="black";
+document.getElementById("ff").style.color="blue";}
+
+
+</script>
+</body>
+</html>

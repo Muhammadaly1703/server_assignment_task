@@ -1,0 +1,39 @@
+<!Doctype>
+<html>
+<head>
+<style>
+
+
+
+
+</style>
+</head>
+<body>
+
+
+<form class="han" id="yy"  style="text-align:center;background-color:red;color:white;font-size:50px;padding-top:20px;padding-bottom:20px;margin-left:500px;margin-right:500px;margin-top:200px;"> 
+<input  id="name"type="text" style="padding:10px"><br>
+<label>Name</label><br>
+<input  id="password1" type="password" style="padding:10px"><br>
+<label>Passward</label><br>
+<button id="checkedpassword" style="padding:10px">SUBMIT</button>
+</form>
+<script type="text/javascript">
+document.getElementById("checkedpassword").onclick=function(){
+var cordword=document.getElementById("name").value;
+var checkedpassword="M.Ali";
+var cordword1=document.getElementById("password1").value;
+var checkedpassword1="123456";
+if(cordword == checkedpassword && cordword1 == checkedpassword1)
+{
+alert(" correct password");
+}
+else{
+alert("Wrong password");
+}
+}
+</script>
+
+
+</body>
+</html>

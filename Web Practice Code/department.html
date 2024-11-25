@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Staff Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .category-container {
+            margin-bottom: 40px;
+        }
+        h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .form-container {
+            margin-top: 20px;
+        }
+        .form-container input, .form-container select {
+            margin-bottom: 10px;
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .form-container button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .edit-button, .delete-button {
+            padding: 5px 10px;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .edit-button {
+            background-color: #2196F3;
+        }
+        .delete-button {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="font-size:40px;text-align:center;">Staff Details</h1>
+    <div id="staff-container">
+        <!-- Staff categories and tables will be appended here -->
+    </div>
+
+    <div class="form-container">
+        <h2>Add New Staff Member</h2>
+        <form id="staff-form">
+            <input type="text" id="staff-name" placeholder="Name" required>
+            <select id="staff-category" required>
+                <option value="" disabled selected>Select Category</option>
+                <option value="teaching-staff">Teaching Staff</option>
+                <option value="non-teaching-staff">Non-Teaching Staff</option>
+                <option value="management">Management</option>
+                <option value="support-staff">Support Staff</option>
+                <option value="contractual-staff">Contractual Staff</option>
+            </select>
+            <input type="text" id="staff-position" placeholder="Position" required>
+            <input type="text" id="staff-qualification" placeholder="Qualification" required>
+            <input type="text" id="staff-fathername" placeholder="Father's Name" required>
+            <input type="text" id="staff-address" placeholder="Address" required>
+            <input type="number" id="staff-salary" placeholder="Salary" required>
+            <input type="tel" id="staff-contact" placeholder="Contact No." required>
+            <button type="submit">Add Staff Member</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const staffContainer = document.getElementById('staff-container');
+            const staffForm = document.getElementById('staff-form');
+
+            const categories = {
+                'teaching-staff': 'Teaching Staff',
+                'non-teaching-staff': 'Non-Teaching Staff',
+                'management': 'Management',
+                'support-staff': 'Support Staff',
+                'contractual-staff': 'Contractual Staff'
+            };
+
+            function loadStaff() {
+                const staffData = JSON.parse(localStorage.getItem('staffData')) || {};
+                staffContainer.innerHTML = '';
+                for (const category in categories) {
+                    const categoryDiv = document.createElement('div');
+                    categoryDiv.classList.add('category-container');
+                    categoryDiv.innerHTML = `
+                        <h2>${categories[category]}</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Sr. No.</th>
+                                    <th>Name</th>
+                                    <th>Position</th>
+                                    <th>Qualification</th>
+                                    <th>Father's Name</th>
+                                    <th>Address</th>
+                                    <th>Salary</th>
+                                    <th>Contact No.</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Staff details for this category will be appended here -->
+                            </tbody>
+                        </table>
+                    `;
+                    const tbody = categoryDiv.querySelector('tbody');
+                    if (staffData[category]) {
+                        staffData[category].forEach((staff, index) => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${index + 1}</td>
+                                <td>${staff.name}</td>
+                                <td>${staff.position}</td>
+                                <td>${staff.qualification}</td>
+                                <td>${staff.fatherName}</td>
+                                <td>${staff.address}</td>
+                                <td>${staff.salary}</td>
+                                <td>${staff.contact}</td>
+                                <td class="action-buttons">
+                                    <button class="edit-button" onclick="editStaff('${category}', ${index})">Edit</button>
+                                    <button class="delete-button" onclick="deleteStaff('${category}', ${index})">Delete</button>
+                                </td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+                    }
+                    staffContainer.appendChild(categoryDiv);
+                }
+            }
+
+            function saveStaff(staff) {
+                const staffData = JSON.parse(localStorage.getItem('staffData')) || {};
+                if (!staffData[staff.category]) {
+                    staffData[staff.category] = [];
+                }
+                staffData[staff.category].push(staff);
+                localStorage.setItem('staffData', JSON.stringify(staffData));
+                loadStaff();
+            }
+
+            function editStaff(category, index) {
+                const staffData = JSON.parse(localStorage.getItem('staffData'));
+                const staff = staffData[category][index];
+
+                document.getElementById('staff-name').value = staff.name;
+                document.getElementById('staff-category').value = category;
+                document.getElementById('staff-position').value = staff.position;
+                document.getElementById('staff-qualification').value = staff.qualification;
+                document.getElementById('staff-fathername').value = staff.fatherName;
+                document.getElementById('staff-address').value = staff.address;
+                document.getElementById('staff-salary').value = staff.salary;
+                document.getElementById('staff-contact').value = staff.contact;
+
+                deleteStaff(category, index);
+            }
+
+            function deleteStaff(category, index) {
+                const staffData = JSON.parse(localStorage.getItem('staffData'));
+                staffData[category].splice(index, 1);
+                localStorage.setItem('staffData', JSON.stringify(staffData));
+                loadStaff();
+            }
+
+            staffForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const staff = {
+                    name: document.getElementById('staff-name').value,
+                    category: document.getElementById('staff-category').value,
+                    position: document.getElementById('staff-position').value,
+                    qualification: document.getElementById('staff-qualification').value,
+                    fatherName: document.getElementById('staff-fathername').value,
+                    address: document.getElementById('staff-address').value,
+                    salary: document.getElementById('staff-salary').value,
+                    contact: document.getElementById('staff-contact').value
+                };
+                saveStaff(staff);
+                staffForm.reset();
+            });
+
+            window.editStaff = editStaff;
+            window.deleteStaff = deleteStaff;
+
+            loadStaff();
+        });
+    </script>
+</body>
+</html>

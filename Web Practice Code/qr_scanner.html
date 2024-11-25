@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner with Google Lens Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: green;
+        }
+
+        video {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        canvas {
+            display: none; /* Hide canvas */
+        }
+
+        #capturedImage {
+            margin-top: 20px;
+            max-width: 300px;
+            display: none; /* Hide initially */
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QR Code Scanner</h1>
+        <video id="video" width="300" height="200" autoplay></video>
+        <button id="captureButton">Capture Image</button>
+        <button id="googleLensButton" style="display: none;">Scan with Google Lens</button>
+        <div id="result" class="result"></div>
+        <img id="capturedImage" src="" alt="Captured QR Code Image">
+        <div id="debugInfo" style="margin-top: 20px; color: red;"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
+    <script>
+        const video = document.getElementById("video");
+        const result = document.getElementById("result");
+        const capturedImage = document.getElementById("capturedImage");
+        const debugInfo = document.getElementById("debugInfo");
+        const captureButton = document.getElementById("captureButton");
+        const googleLensButton = document.getElementById("googleLensButton");
+
+        // Start the video stream
+        function startStream() {
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+                .then((stream) => {
+                    video.srcObject = stream;
+                    video.play();
+                })
+                .catch(err => {
+                    console.error("Error accessing camera: ", err);
+                    debugInfo.textContent = "Unable to access camera.";
+                });
+        }
+
+        // Capture the image from the video
+        captureButton.addEventListener("click", () => {
+            // Create a canvas element for capturing the image
+            const canvas = document.createElement("canvas");
+            const context = canvas.getContext("2d");
+            canvas.height = video.videoHeight;
+            canvas.width = video.videoWidth;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            // Capture the image and display it
+            capturedImage.src = canvas.toDataURL(); // Capture the image
+            capturedImage.style.display = 'block'; // Show the captured image
+
+            // Show the Google Lens button
+            googleLensButton.style.display = 'block';
+
+            debugInfo.textContent = "Image captured. Click the button to scan with Google Lens.";
+        });
+
+        // Open Google Lens with the captured image
+        googleLensButton.addEventListener("click", () => {
+            if (capturedImage.src) {
+                const googleLensUrl = https://lens.google.com/upload?url=${encodeURIComponent(capturedImage.src)};
+                window.open(googleLensUrl, '_blank'); // Open in a new tab
+            } else {
+                debugInfo.textContent = "Please capture an image first.";
+            }
+        });
+
+        // Start streaming the video when the page loads
+        startStream();
+    </script>
+</body>
+</html>

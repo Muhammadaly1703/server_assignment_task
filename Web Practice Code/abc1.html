@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account System</title>
+  <style>
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      /* Full-screen gradient background */
+      background: linear-gradient(135deg, #FF6F61, #FF9A8B, #F7C0CB, #D0A0D5, #9D4C97);
+      background-size: 400% 400%;  /* Smooth background transition */
+      animation: gradientAnimation 10s ease infinite;
+      color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 20px;
+    }
+
+    .login-form, .signup-form {
+      background: rgba(255, 255, 255, 0.85); /* Semi-transparent background */
+      color: #333;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 400px;
+      display: none;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .login-form {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h2 {
+      text-align: center;
+      color: #FF6F61;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(90deg, #FF6F61, #F7C0CB);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(90deg, #FF9A8B, #FF6F61);
+      transform: scale(1.05);
+    }
+
+    .options {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .options a {
+      font-size: 14px;
+      color: #FF6F61;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .options a:hover {
+      color: #F7C0CB;
+    }
+
+    #signup-link, #login-link {
+      font-weight: bold;
+    }
+
+    .show-signup .login-form {
+      display: none;
+    }
+
+    .show-signup .signup-form {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Login Form -->
+    <div class="login-form">
+      <h2>Login to Your Account</h2>
+      <form id="loginForm">
+        <div class="input-group">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" name="email" placeholder="Enter your email" required>
+        </div>
+        <div class="input-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" name="password" placeholder="Enter your password" required>
+        </div>
+        <button type="submit" class="login-btn">Log In</button>
+        <div class="options">
+          <a href="#" id="signup-link">Create New Account</a>
+        </div>
+      </form>
+    </div>
+
+    <!-- Signup Form -->
+    <div class="signup-form">
+      <h2>Create New Account</h2>
+      <form id="signupForm">
+        <div class="input-group">
+          <label for="signup-name">Full Name</label>
+          <input type="text" id="signup-name" name="name" placeholder="Enter your full name" required>
+        </div>
+        <div class="input-group">
+          <label for="signup-email">Email</label>
+          <input type="email" id="signup-email" name="email" placeholder="Enter your email" required>
+        </div>
+        <div class="input-group">
+          <label for="signup-password">Password</label>
+          <input type="password" id="signup-password" name="password" placeholder="Create a password" required>
+        </div>
+        <button type="submit" class="signup-btn">Sign Up</button>
+        <div class="options">
+          <a href="#" id="login-link">Already have an account? Log In</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const signupLink = document.getElementById('signup-link');
+    const loginLink = document.getElementById('login-link');
+    const container = document.querySelector('.container');
+    const signupForm = document.getElementById('signupForm');
+    const loginForm = document.getElementById('loginForm');
+
+    signupLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      container.classList.add('show-signup');
+    });
+
+    loginLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      container.classList.remove('show-signup');
+    });
+
+    function hashPassword(password) {
+      return btoa(password);
+    }
+
+    signupForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('signup-name').value;
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+
+      const hashedPassword = hashPassword(password);
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+
+      if (users.some(user => user.email === email)) {
+        alert('Email already exists!');
+      } else {
+        users.push({ name, email, password: hashedPassword });
+        localStorage.setItem('users', JSON.stringify(users));
+        alert('Account created!');
+        container.classList.remove('show-signup');
+      }
+    });
+
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      const hashedPassword = hashPassword(password);
+
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      const user = users.find(user => user.email === email && user.password === hashedPassword);
+
+      if (user) {
+        alert(`Welcome, ${user.name}`);
+        window.location.href = "abc.html";
+      } else {
+        alert('Invalid login credentials');
+      }
+    });
+  </script>
+</body>
+</html>

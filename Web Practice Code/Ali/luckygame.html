@@ -1,0 +1,36 @@
+<!Doctype>
+<html>
+<head>
+<style>
+
+
+</style>
+</head>
+<body>
+<input type="text" id="numberEntered">
+<input type="button" value="GUESS" id="ali">
+<script type="text/javascript">
+document.getElementById("ali").onclick = function() {
+    // Function to generate a random alphanumeric character
+    function getRandomAlphanumeric() {
+        const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        return chars[Math.floor(Math.random() * chars.length)];
+    }
+
+    // Generate a random alphanumeric string of length 1
+    var randomChar = getRandomAlphanumeric();
+
+    // Get the user's input
+    var userGuess = document.getElementById("numberEntered").value;
+
+    // Check if the user's guess matches the random character
+    if (userGuess === randomChar) {
+        alert("You got it!");
+    } else {
+        alert("The correct character was: " + randomChar);
+    }
+}
+</script>
+
+</body>
+</html>

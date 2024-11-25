@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Timetable</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+            scroll-behavior: smooth;
+        }
+        .header {
+            position: fixed; /* Fixed position */
+            top: 0; /* Stick to the top */
+            width: 100%;
+            padding: 20px;
+            background-color: #007BFF;
+            text-align: center;
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            z-index: 1000; /* Ensure the header is above other content */
+        }
+        .form-container {
+            margin-top: 120px; /* Space below the fixed header */
+            margin:120px auto;
+            width: 90%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .period {
+            margin: 20px 0; /* Space between periods */
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: none; /* Initially hide all sections */
+        }
+        .period h1 {
+            font-size: 30px;
+            color: #333;
+        }
+        .period p {
+            font-size: 18px;
+            margin: 5px 0;
+            color: #555;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        td {
+            background-color: #f9f9f9;
+        }
+        audio {
+            display: none;
+        }
+        section {
+            padding-top: 50px;
+        }
+        .form-container input, .form-container select {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .form-container button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+        .action-btn {
+            padding: 5px 10px;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .edit-btn {
+            background-color: #28a745;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+        }
+        #current-time {
+            margin: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">College Timetable</div>
+
+<div id="current-time"></div> <!-- Display current time -->
+
+<!-- Add Teacher Form -->
+<div class="form-container">
+    <h2>Add Lecture Information</h2>
+    <form id="add-lecture-form">
+        <label for="teacher">Teacher</label>
+        <input type="text" id="teacher" placeholder="Enter teacher name" required>
+
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" placeholder="Enter subject" required>
+
+        <label for="class">Class</label>
+        <input type="text" id="class" placeholder="Enter class" required>
+
+        <label for="lecture">Lecture</label>
+        <select id="lecture" required>
+            <option value="period-1">1st Lecture</option>
+            <option value="period-2">2nd Lecture</option>
+            <option value="period-3">3rd Lecture</option>
+            <option value="period-4">4th Lecture</option>
+            <option value="period-5">5th Lecture</option>
+            <option value="period-6">6th Lecture</option>
+            <option value="period-7">7th Lecture</option>
+        </select>
+
+        <button type="submit">Add Lecture</button>
+    </form>
+</div>
+
+<!-- Timetable Sections -->
+<section id="period-1" class="period">
+    <h1>1st Lecture: 7:45 AM - 8:30 AM</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Teacher</th>
+                <th>Subject</th>
+                <th>Class</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Existing timetable rows will be populated here -->
+        </tbody>
+    </table>
+</section>
+
+<section id="period-2" class="period">
+    <h1>2nd Lecture: 8:30 AM - 9:15 AM</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Teacher</th>
+                <th>Subject</th>
+                <th>Class</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Existing timetable rows will be populated here -->
+        </tbody>
+    </table>
+</section>
+
+<section id="period-3" class="period">
+    <h1>3rd Lecture: 9:15 AM - 10:00 AM</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Teacher</th>
+                <th>Subject</th>
+                <th>Class</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Existing timetable rows will be populated here -->
+        </tbody>
+    </table>
+</section>
+
+<section id="period-4" class="period">
+    <h1>4th Lecture: 10:00 AM - 10:45 AM</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Teacher</th>
+                <th>Subject</th>
+                <th>Class</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Existing timetable rows will be populated here -->
+        </tbody>
+    </table>
+</section>
+
+<section id="period-5" class="period">
+    <h1>5th Lecture: 10:45 AM - 11:30 AM</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Teacher</th>
+                <th>Subject</th>
+                <th>Class</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Existing timetable rows will be populated here -->
+        </tbody>
+    </table>
+</section>
+
+<section id="period-6" class="period">
+    <h1>6th Lecture: 11:30 AM - 12:15 PM</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Teacher</th>
+                <th>Subject</th>
+                <th>Class</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Existing timetable rows will be populated here -->
+        </tbody>
+    </table>
+</section>
+
+<section id="period-7" class="period">
+    <h1>7th Lecture: 12:15 PM - 1:00 PM</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Teacher</th>
+                <th>Subject</th>
+                <th>Class</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Existing timetable rows will be populated here -->
+        </tbody>
+    </table>
+</section>
+
+<audio id="alarm-sound" src="\Users\USMAN_PC\Downloads\ali.mp3" preload="auto"></audio>
+
+<script>
+    // Function to update current time
+    function updateCurrentTime() {
+        const now = new Date();
+        const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+        document.getElementById('current-time').innerText = now.toLocaleTimeString('en-US', options);
+    }
+
+    // Update time every second
+    setInterval(updateCurrentTime, 1000);
+
+    let currentPeriod = 1; // Start with the first period
+
+    // Show the first period initially
+    document.getElementById(`period-${currentPeriod}`).style.display = 'block';
+
+    // Function to change the period
+    function changePeriod() {
+        // Hide the current period
+        document.getElementById(`period-${currentPeriod}`).style.display = 'none';
+        
+        // Increment the period
+        currentPeriod++;
+
+        // If we've gone past the last period, reset to 1
+        if (currentPeriod > 7) {
+            currentPeriod = 1;
+        }
+
+        // Show the new current period
+        document.getElementById(`period-${currentPeriod}`).style.display = 'block';
+        
+        // Play the alarm sound
+        const alarmSound = document.getElementById('alarm-sound');
+        alarmSound.currentTime = 0; // Reset sound to start
+        alarmSound.play();
+    }
+
+    // Change period every 3 seconds (3000 milliseconds)
+    setInterval(changePeriod, 3000); 
+
+    // Add lecture form submission handler
+    document.getElementById('add-lecture-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const teacher = document.getElementById('teacher').value;
+        const subject = document.getElementById('subject').value;
+        const className = document.getElementById('class').value;
+        const selectedLecture = document.getElementById('lecture').value;
+
+        // Add a new row to the corresponding lecture table
+        const tableBody = document.querySelector(`#${selectedLecture} tbody`);
+        const newRow = tableBody.insertRow();
+        newRow.innerHTML = `
+            <td>${teacher}</td>
+            <td>${subject}</td>
+            <td>${className}</td>
+            <td><button class="action-btn edit-btn">Edit</button></td>
+            <td><button class="action-btn delete-btn">Delete</button></td>
+        `;
+
+        // Save the new lecture to localStorage
+        saveLecture(selectedLecture, teacher, subject, className);
+
+        // Reset form
+        document.getElementById('add-lecture-form').reset();
+    });
+
+    // Event delegation for edit and delete buttons
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('delete-btn')) {
+            const row = e.target.closest('tr');
+            const cells = row.getElementsByTagName('td');
+
+            const teacher = cells[0].innerText;
+            const subject = cells[1].innerText;
+            const className = cells[2].innerText;
+            const selectedLecture = e.target.closest('table').closest('section').id; // Get the selected period
+
+            // Remove the row from the table
+            row.remove();
+
+            // Remove from localStorage
+            removeLecture(selectedLecture, teacher, subject, className);
+        }
+        if (e.target.classList.contains('edit-btn')) {
+            const row = e.target.closest('tr');
+            const cells = row.getElementsByTagName('td');
+            document.getElementById('teacher').value = cells[0].innerText;
+            document.getElementById('subject').value = cells[1].innerText;
+            document.getElementById('class').value = cells[2].innerText;
+
+            // Remove the row from the table
+            const selectedLecture = e.target.closest('table').closest('section').id; // Get the selected period
+            row.remove();
+
+            // Remove from localStorage
+            removeLecture(selectedLecture, cells[0].innerText, cells[1].innerText, cells[2].innerText);
+        }
+    });
+
+    // Save lecture information to localStorage
+    function saveLecture(lecture, teacher, subject, className) {
+        let lectures = JSON.parse(localStorage.getItem('lectures')) || {};
+        if (!lectures[lecture]) {
+            lectures[lecture] = [];
+        }
+        lectures[lecture].push({ teacher, subject, className });
+        localStorage.setItem('lectures', JSON.stringify(lectures));
+    }
+
+    // Remove lecture information from localStorage
+    function removeLecture(lecture, teacher, subject, className) {
+        let lectures = JSON.parse(localStorage.getItem('lectures')) || {};
+        if (lectures[lecture]) {
+            lectures[lecture] = lectures[lecture].filter(item => {
+                return !(item.teacher === teacher && item.subject === subject && item.className === className);
+            });
+            localStorage.setItem('lectures', JSON.stringify(lectures));
+        }
+    }
+
+    // Load saved lectures from localStorage when the page loads
+    function loadLectures() {
+        const lectures = JSON.parse(localStorage.getItem('lectures')) || {};
+        for (const period in lectures) {
+            const tableBody = document.querySelector(`#${period} tbody`);
+            lectures[period].forEach(({ teacher, subject, className }) => {
+                const newRow = tableBody.insertRow();
+                newRow.innerHTML = `
+                    <td>${teacher}</td>
+                    <td>${subject}</td>
+                    <td>${className}</td>
+                    <td><button class="action-btn edit-btn">Edit</button></td>
+                    <td><button class="action-btn delete-btn">Delete</button></td>
+                `;
+            });
+        }
+    }
+
+    // Load lectures on page load
+    window.onload = loadLectures;
+</script>
+
+</body>
+</html>

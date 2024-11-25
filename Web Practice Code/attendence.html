@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Page</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #4CAF50;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        input[type="checkbox"] {
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>Attendance Page</h1>
+    </div>
+
+    <div class="container">
+        <h2>Mark Attendance</h2>
+        <div class="form-group">
+            <label for="classSelect">Select Class:</label>
+            <select id="classSelect" onchange="loadStudents()">
+                <option value="11">Class 11</option>
+                <option value="12">Class 12</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="sectionSelect">Select Section:</label>
+            <select id="sectionSelect"></select>
+        </div>
+        <button onclick="markAttendance()">Mark Attendance</button>
+
+        <h2>Attendance List</h2>
+        <div id="attendanceTables"></div>
+    </div>
+
+    <script>
+        let sections = { 11: 2, 12: 2 }; // Ensure this matches the registration page
+        let students = JSON.parse(localStorage.getItem('students')) || [];
+
+        function loadStudents() {
+            const classSelect = document.getElementById('classSelect');
+            const sectionSelect = document.getElementById('sectionSelect');
+            const selectedClass = classSelect.value;
+
+            sectionSelect.innerHTML = '';
+
+            for (let i = 1; i <= sections[selectedClass]; i++) {
+                const option = document.createElement('option');
+                option.value = `Section ${i}`;
+                option.textContent = `Section ${i}`;
+                sectionSelect.appendChild(option);
+            }
+        }
+
+        function markAttendance() {
+            const classNum = document.getElementById('classSelect').value;
+            const sectionName = document.getElementById('sectionSelect').value;
+
+            const studentsInSection = students.filter(student => student.class == classNum && student.section == sectionName);
+
+            const attendanceTable = document.createElement('table');
+            const headerRow = document.createElement('tr');
+            headerRow.innerHTML = `<th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Attendance</th>`;
+            attendanceTable.appendChild(headerRow);
+
+            studentsInSection.forEach(student => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${student.id}</td>
+                    <td>${student.name}</td>
+                    <td>${student.email}</td>
+                    <td>${student.phone}</td>
+                    <td>
+                        <input type="checkbox" id="attendance-${student.id}" value="present">
+                    </td>
+                `;
+                attendanceTable.appendChild(row);
+            });
+
+            const attendanceDiv = document.getElementById('attendanceTables');
+            attendanceDiv.innerHTML = ''; // Clear previous attendance list
+            attendanceDiv.appendChild(attendanceTable);
+        }
+
+        window.onload = () => {
+            loadStudents();
+        }
+    </script>
+</body>
+
+</html>

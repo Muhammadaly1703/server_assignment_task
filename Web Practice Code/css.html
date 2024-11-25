@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta    charts "UTF-8">
+<meta name="viewpoint" "width=device-width, initial-scale=1.0">
+<title>CSS GRID</title>
+<style>
+*{padding:0;margin:0;box-size:border-box;background-color:yellow;color:white;}
+.ali{
+height:100vh;
+display:grid;
+grid-template-columns:1fr 1fr 1fr 1fr 1fr;
+grid-template-rows:0.1fr 0.2fr 1fr 0.2fr;
+grid-template-areas:"nav nav nav nav nav"
+                    "slidebar1 main main main slidebar2"
+					"slidebar1 box1 box2 box3 slidebar2"
+                                         "slidebar1 footer footer footer slidebar2";
+grid-gap:0.2rem;										 
+text-align:center;
+font-size:50px;
+}
+nav{
+background-color:red;
+grid-area:nav;
+}
+.slidebar1{
+background-color:black;
+grid-area:slidebar1;
+}
+.book1{
+background-color:tomato;
+}
+.book2{
+background-color:green;
+}
+.book3{
+background-color:blue;
+}
+main{
+background-color:brown;
+grid-area:main;
+
+}
+footer{
+background-color:purple;
+grid-area:footer;
+}
+.slidebar2{
+background-color:gray;
+grid-area:slidebar2;
+}
+@media only screen and (max-width:760px) {
+.container{
+grid-template-columns:1fr;
+grid-template-rows:0.3fr 0.8fr 0.5fr 0.7fr 0.7fr 0.8fr 0.2fr;
+grid-template-areas:"nav"
+"main"
+"slidebar"
+"box1"
+"box2"
+"slide1"
+"footer";
+
+
+
+}}
+</style>
+</head>
+<body>
+<div class="ali">
+<nav>NAV</nav>
+<div class="slidebar1">SLIDEBAR1</div>
+<div class="book4">Book 4</div>
+
+<div class="book1">BOOK 1</div>
+<div class="book2">BOOK 2</div>
+<div class="book3">BOOK 3</div>
+
+<main>MAIN</main>
+
+<footer>FOOTER</footer>
+
+</div>
+
+</body>
+</html>

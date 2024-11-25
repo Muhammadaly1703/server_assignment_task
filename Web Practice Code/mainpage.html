@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Management System</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+        .menu {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10;
+            text-align: center;
+        }
+        .menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .slider {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .slides {
+            display: flex;
+            transition: transform 1s ease;
+            height: 100%;
+        }
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the image covers the entire slide */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Centers the image */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="menu">
+        <a href="dashboard.html" style="font-size:20px;"><img style="height:30px;width50px;border-radius:50%;" src="data:image/png;base64,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"><br>Dashboard</a>
+    </div>
+
+    <div class="slider">
+        <div class="slides">
+            <div class="slide"><img src="https://www.smu.edu/-/media/site/alumni/2022/featured-stories/strenghts-struggles/campus-beauty.png" alt="University of Maryland"></div>
+            <div class="slide"><img src="https://res.cloudinary.com/highereducation/image/upload/w_740,h_416,c_fill,f_auto,fl_lossy,q_auto/v1/TheBestSchools.org/brown-university-granoff-center-for-the-creative-arts.jpg" alt="Brown University"></div>
+            <div class="slide"><img src="https://amazingarchitecture.com/storage/files/1/Articles/building/university_of_vrginia.jpeg" alt="University of Virginia"></div>
+            <div class="slide"><img src="https://i.pinimg.com/originals/3c/48/6b/3c486bd35bdd027d6c6a3d406215a29c.jpg" alt="College Campus"></div>
+            <div class="slide"><img src="https://www.shutterstock.com/image-photo/dallas-hall-historic-building-on-600nw-2455819229.jpg" alt="Dallas Hall"></div>
+        </div>
+    </div>
+
+    <script>
+        const slides = document.querySelector('.slides');
+        const totalSlides = document.querySelectorAll('.slide').length;
+        let currentIndex = 0;
+
+        function showNextSlide() {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
+
+        setInterval(showNextSlide, 5000); // Change slide every 5 seconds
+    </script>
+
+</body>
+</html>

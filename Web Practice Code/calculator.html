@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Animated Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, #ff7e5f, #feb47b);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .calculator {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .display {
+            width: 100%;
+            height: 50px;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            text-align: right;
+            padding: 10px;
+            background: #fff;
+            border: none;
+            border-radius: 5px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+            color: #333;
+            animation: slideIn 1s ease-in-out;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .button {
+            font-size: 1.5rem;
+            padding: 20px;
+            border: none;
+            border-radius: 5px;
+            background: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .button:active {
+            transform: scale(1.05);
+        }
+
+        .back-button {
+            background: #ff6347;
+            color: white;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .display {
+                font-size: 1.5rem;
+                height: 45px;
+            }
+
+            .button {
+                font-size: 1.2rem;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" class="display" disabled>
+        <div class="buttons">
+            <button class="button back-button" onclick="backspace()">←</button>
+            <button class="button" onclick="appendNumber('7')">7</button>
+            <button class="button" onclick="appendNumber('8')">8</button>
+            <button class="button" onclick="appendNumber('9')">9</button>
+            <button class="button" onclick="chooseOperation('+')">+</button>
+            
+            <button class="button" onclick="appendNumber('4')">4</button>
+            <button class="button" onclick="appendNumber('5')">5</button>
+            <button class="button" onclick="appendNumber('6')">6</button>
+            <button class="button" onclick="chooseOperation('-')">-</button>
+            
+            <button class="button" onclick="appendNumber('1')">1</button>
+            <button class="button" onclick="appendNumber('2')">2</button>
+            <button class="button" onclick="appendNumber('3')">3</button>
+            <button class="button" onclick="chooseOperation('*')">*</button>
+            
+            <button class="button" onclick="appendNumber('0')">0</button>
+            <button class="button" onclick="clearDisplay()">C</button>
+            <button class="button" onclick="calculateResult()">=</button>
+            <button class="button" onclick="chooseOperation('/')">/</button>
+        </div>
+    </div>
+
+    <script>
+        let currentInput = '';
+        let previousInput = '';
+        let operation = null;
+
+        function appendNumber(number) {
+            currentInput += number;
+            updateDisplay();
+        }
+
+        function chooseOperation(op) {
+            if (currentInput === '') return;
+            if (previousInput !== '') {
+                calculateResult();
+            }
+            operation = op;
+            previousInput = currentInput;
+            currentInput = '';
+        }
+
+        function calculateResult() {
+            let result;
+            const prev = parseFloat(previousInput);
+            const current = parseFloat(currentInput);
+
+            if (isNaN(prev) || isNaN(current)) return;
+            switch (operation) {
+                case '+':
+                    result = prev + current;
+                    break;
+                case '-':
+                    result = prev - current;
+                    break;
+                case '*':
+                    result = prev * current;
+                    break;
+                case '/':
+                    if (current === 0) {
+                        alert("Cannot divide by zero!");
+                        clearDisplay();
+                        return;
+                    }
+                    result = prev / current;
+                    break;
+                default:
+                    return;
+            }
+            currentInput = result.toString();
+            operation = null;
+            previousInput = '';
+            updateDisplay();
+        }
+
+        function clearDisplay() {
+            currentInput = '';
+            previousInput = '';
+            operation = null;
+            updateDisplay();
+        }
+
+        function backspace() {
+            currentInput = currentInput.slice(0, -1);
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            document.getElementById('display').value = currentInput;
+        }
+    </script>
+</body>
+</html>

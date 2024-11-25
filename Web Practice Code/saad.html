@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Details by Section</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #2A3D3F;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ccc;
+        }
+        th {
+            background-color: #2A3D3F;
+            color: white;
+            font-weight: bold;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .form-container input[type="text"],
+        .form-container input[type="number"],
+        .form-container select {
+            margin-bottom: 12px;
+            padding: 10px;
+            width: calc(100% - 20px);
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .form-container button {
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+        .class-section {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+        .actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        .edit-btn, .delete-btn {
+            padding: 8px 12px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .edit-btn {
+            background-color: #ffa500;
+            color: white;
+        }
+        .edit-btn:hover {
+            background-color: #ff8c00;
+        }
+        .delete-btn {
+            background-color: #ff4d4d;
+            color: white;
+        }
+        .delete-btn:hover {
+            background-color: #ff1a1a;
+        }
+        .add-section-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Details by Section</h1>
+    <div id="students-lists"></div>
+
+    <div class="form-container">
+        <h2>Add New Student</h2>
+        <form id="student-form">
+            <input type="text" id="student-name" placeholder="Name" required>
+            <select id="student-gender" required>
+                <option value="" disabled selected>Select Gender</option>
+                <option value="boy">Boy</option>
+                <option value="girl">Girl</option>
+            </select>
+            <input type="number" id="student-age" placeholder="Age" required>
+            <select id="student-class" required>
+                <option value="" disabled selected>Select Class</option>
+                <option value="CLASS 11">CLASS 11</option>
+                <option value="CLASS 12">CLASS 12</option>
+            </select>
+            <div class="add-section-container">
+                <select id="student-section" required>
+                    <option value="" disabled selected>Select Section</option>
+                </select>
+                <input type="text" id="new-section" placeholder="Add Section" style="width: 100px;">
+                <button type="button" onclick="addSection()">Add Section</button>
+            </div>
+            <input type="text" id="student-roll-no" placeholder="Roll No." required>
+            <input type="text" id="student-reg-no" placeholder="Registration No." required>
+            <button type="submit">Add Student</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const studentsLists = document.getElementById('students-lists');
+            const studentForm = document.getElementById('student-form');
+            const sectionDropdown = document.getElementById('student-section');
+            let editingIndex = -1;
+
+            // Load sections from localStorage if available
+            function loadSections() {
+                const sections = JSON.parse(localStorage.getItem('sections')) || [];
+                sectionDropdown.innerHTML = '<option value="" disabled selected>Select Section</option>';
+                sections.forEach(section => {
+                    const option = document.createElement('option');
+                    option.value = section;
+                    option.textContent = section;
+                    sectionDropdown.appendChild(option);
+                });
+            }
+
+            // Add new section to dropdown and save it in localStorage
+            window.addSection = function() {
+                const newSection = document.getElementById('new-section').value.trim();
+                if (newSection) {
+                    const sections = JSON.parse(localStorage.getItem('sections')) || [];
+                    if (!sections.includes(newSection)) {
+                        sections.push(newSection);
+                        localStorage.setItem('sections', JSON.stringify(sections));
+                        loadSections();
+                        document.getElementById('new-section').value = ''; // Clear input
+                    }
+                }
+            };
+
+            function loadStudents() {
+                const studentsData = JSON.parse(localStorage.getItem('studentsData')) || [];
+                studentsLists.innerHTML = ''; // Clear previous data
+
+                const table = document.createElement('table');
+                table.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th>Sr. No.</th>
+                            <th>Name</th>
+                            <th>Gender</th>
+                            <th>Age</th>
+                            <th>Class</th>
+                            <th>Section</th>
+                            <th>Roll No.</th>
+                            <th>Registration No.</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                `;
+                const tbody = table.querySelector('tbody');
+
+                studentsData.forEach((student, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${student.name}</td>
+                        <td>${student.gender}</td>
+                        <td>${student.age}</td>
+                        <td>${student.class}</td>
+                        <td>${student.section}</td>
+                        <td>${student.rollNo}</td>
+                        <td>${student.regNo}</td>
+                        <td>
+                            <div class="actions">
+                                <button class="edit-btn" onclick="editStudent(${index})">Edit</button>
+                                <button class="delete-btn" onclick="deleteStudent(${index})">Delete</button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+                studentsLists.appendChild(table);
+            }
+
+            function saveStudents(studentsData) {
+                localStorage.setItem('studentsData', JSON.stringify(studentsData));
+                loadStudents();
+            }
+
+            studentForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const name = document.getElementById('student-name').value;
+                const gender = document.getElementById('student-gender').value;
+                const age = document.getElementById('student-age').value;
+                const classValue = document.getElementById('student-class').value;
+                const section = sectionDropdown.value;
+                const rollNo = document.getElementById('student-roll-no').value;
+                const regNo = document.getElementById('student-reg-no').value;
+
+                const studentsData = JSON.parse(localStorage.getItem('studentsData')) || [];
+
+                if (editingIndex === -1) {
+                    studentsData.push({
+                        name, gender, age, class: classValue, section, rollNo, regNo
+                    });
+                } else {
+                    studentsData[editingIndex] = {
+                        name, gender, age, class: classValue, section, rollNo, regNo
+                    };
+                    editingIndex = -1;
+                }
+
+                studentForm.reset();
+                saveStudents(studentsData);
+            });
+
+            window.editStudent = function(index) {
+                const studentsData = JSON.parse(localStorage.getItem('studentsData')) || [];
+                const student = studentsData[index];
+                document.getElementById('student-name').value = student.name;
+                document.getElementById('student-gender').value = student.gender;
+                document.getElementById('student-age').value = student.age;
+                document.getElementById('student-class').value = student.class;
+                sectionDropdown.value = student.section;
+                document.getElementById('student-roll-no').value = student.rollNo;
+                document.getElementById('student-reg-no').value = student.regNo;
+                editingIndex = index;
+            };
+
+            window.deleteStudent = function(index) {
+                const studentsData = JSON.parse(localStorage.getItem('studentsData')) || [];
+                studentsData.splice(index, 1);
+                saveStudents(studentsData);
+            };
+
+            loadSections();
+            loadStudents();
+        });
+    </script>
+</body>
+</html>

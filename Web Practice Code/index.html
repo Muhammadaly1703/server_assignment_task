@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muhammad Ali | My Projects</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(to bottom, #f4f4f9, #e0e7ff);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            color: white;
+            padding: 40px 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-out;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            font-weight: bold;
+            animation: slideInFromLeft 1s ease-out;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            margin-top: 10px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .projects h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #4facfe;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: 1fr;  /* Full-width cards */
+            gap: 20px;
+            padding: 10px;
+        }
+
+        .project-card {
+            background: linear-gradient(to bottom right, #ffffff, #f0f4ff);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease-out forwards;
+            width: 100%; /* Ensures cards span full width */
+            transform-origin: center;
+        }
+
+        .project-card h3 {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .project-card p {
+            margin: 10px 0;
+            font-size: 1em;
+            color: #555;
+        }
+
+        .project-card .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+        }
+
+        .project-card .btn:hover {
+            background: linear-gradient(to left, #4facfe, #00f2fe);
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            color: white;
+            margin-top: 30px;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer a {
+            color: #f9f9f9;
+            text-decoration: underline;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .footer a:hover {
+            color: #ffcc00;
+            text-decoration: none;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInFromLeft {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <h1>Muhammad Ali</h1>
+        <p>Web Developer | Explore My Work</p>
+    </header>
+
+    <!-- Projects Section -->
+    <main class="projects">
+        <h2>My Projects</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <h3>MY Protofolio</h3>
+                <p>A web app that saves my details in a secure format for processing or viewing.</p>
+                <a href="protofolio.html" target="_blank" class="btn">View Project</a>
+            </div>
+
+            <div class="project-card">
+                <h3>College Management System</h3>
+                <p>A complete system for managing college activities, including exams, fees, and online settings.</p>
+                <a href="mainpage.html" target="_blank" class="btn">View Project</a>
+            </div>
+
+           
+
+            <div class="project-card">
+                <h3>Expense Tracker</h3>
+                <p>A functional expense tracker for scanning receipts to fetch all relevant data.</p>
+                <a href="expense.html" target="_blank" class="btn">View Project</a>
+            </div>
+
+            <div class="project-card">
+                <h3>Job Finder</h3>
+                <p>A web app that saves job details in a secure database for processing.</p>
+                <a href="abc1.html" target="_blank" class="btn">View Project</a>
+            </div>
+<div class="project-card">
+                <h3>Calculator</h3>
+                <p>A web app calculator working full  online access.</p>
+                <a href="calculator.html" target="_blank" class="btn">View Project</a>
+            </div>
+        
+            <div class="project-card">
+                <h3>Employee Management System</h3>
+                <p>A backend system using GraphQL and Node.js for managing employee data with role-based access.</p>
+                <a href="https://github.com/Muhammadaly1703/server_assignment_task" target="_blank" class="btn">View Project</a>
+            </div>
+
+            <div class="project-card">
+                <h3>Social Media Dashboard</h3>
+                <p>A web app for creating social media dashboards for processing data.</p>
+                <a href="social media dash board.html" target="_blank" class="btn">View Project</a>
+            </div>
+ <div class="project-card">
+                <h3>Carrds Website</h3>
+                <p>A web app for various Carrds with interactive features.</p>
+                <a href="carrd.html" target="_blank" class="btn">View Project</a>
+            </div>
+            <div class="project-card">
+                <h3>Grids Practice</h3>
+                <p>A web app for practicing grid layouts.</p>
+                <a href="css.html" target="_blank" class="btn">View Project</a>
+            </div>
+
+            <div class="project-card">
+                <h3>Auto Grids</h3>
+                <p>A web app with auto-responsive grid layouts.</p>
+                <a href="autogrid.html" target="_blank" class="btn">View Project</a>
+            </div>
+
+            <div class="project-card">
+                <h3>Form Practice</h3>
+                <p>A web app for practicing form designs.</p>
+                <a href="awais.html" target="_blank" class="btn">View Project</a>
+            </div>
+
+            <div class="project-card">
+                <h3>Cards Practice</h3>
+                <p>A web app for practicing card layouts.</p>
+                <a href="faizan.html" target="_blank" class="btn">View Project</a>
+            </div>
+
+            <div class="project-card">
+                <h3>Cards and Form Practice Combination</h3>
+                <p>A web app combining card and form layouts for practice.</p>
+                <a href="farooq.html" target="_blank" class="btn">View Project</a>
+            </div>
+
+            <div class="project-card">
+                <h3>Collage Online Landing Page</h3>
+                <p>A web app for creating a collage landing page for online access.</p>
+                <a href="mubashir.html" target="_blank" class="btn">View Project</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Contact me at <a href="mailto:malishabbir20@gmail.com">malishabbir20@gmail.com</a> Wattsno:03228934520</p>
+        <p>Follow me on <a href="https://www.linkedin.com" target="_blank">LinkedIn</a> and <a href="https://www.github.com" target="_blank">GitHub</a> and <a href="https://www.fiverr.com/malydeveloper/buying?source=avatar_menu_profile" target="_blank">Fiverr</a></p>
+    </footer>
+</body>
+</html>

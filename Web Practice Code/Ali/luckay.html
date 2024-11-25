@@ -1,0 +1,30 @@
+<!Doctype>
+<html>
+<head>
+<style>
+
+
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Alphanumeric Generator</h1>
+<button onclick="generateAlphanumeric()">Generate Alphanumeric String</button>
+<script type="text/javascript">
+
+ function generateAlphanumeric(length = 10) {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+ let result ='';
+ const characterslength = characters.length;
+for (let i = 0; i < length; i++){
+  const randomIndex = Math.floor(Math.random() * characterslength);
+  result += characters[randomIndex];
+  }
+  alert(result);
+  }
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Sports Enrollment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 70%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .houses-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .house-box {
+            height: 200px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+
+        .house-box:hover {
+            transform: scale(1.05);
+        }
+
+        #jinnah { background-color: #4CAF50; }
+        #qadeer { background-color: #2196F3; }
+        #iqbal { background-color: #FFC107; }
+        #sirsyed { background-color: #FF5722; }
+        #kadija { background-color: #673AB7; }
+        #zaniab { background-color: #E91E63; }
+        #maryam { background-color: #009688; }
+        #noor { background-color: #FF9800; }
+
+        #enrollmentForm {
+            display: none;
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .student-list {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .edit-btn, .delete-btn {
+            margin: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .edit-btn {
+            background-color: #ffc107;
+            border: none;
+            color: white;
+        }
+
+        .delete-btn {
+            background-color: #f44336;
+            border: none;
+            color: white;
+        }
+
+        .message {
+            margin-top: 20px;
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>College Sports Enrollment</h1>
+
+        <div class="houses-container">
+            <div id="jinnah" class="house-box">Jinnah House</div>
+            <div id="qadeer" class="house-box">Qadeer House</div>
+            <div id="iqbal" class="house-box">Iqbal House</div>
+            <div id="sirsyed" class="house-box">Sir Syed House</div>
+            <div id="kadija" class="house-box">Kadija House</div>
+            <div id="zaniab" class="house-box">Zaniab House</div>
+            <div id="maryam" class="house-box">Maryam House</div>
+            <div id="noor" class="house-box">Noor House</div>
+        </div>
+
+        <form id="enrollmentForm">
+            <h3>Enroll in <span id="selectedHouse"></span></h3>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="section">Section:</label>
+            <input type="text" id="section" name="section" required>
+
+            <label for="roll_no">Roll No:</label>
+            <input type="text" id="roll_no" name="roll_no" required>
+
+            <label for="contact_no">Contact No:</label>
+            <input type="text" id="contact_no" name="contact_no" required>
+
+            <label for="sport">Select Sport:</label>
+            <select id="sport" name="sport" required>
+                <option value="cricket">Cricket</option>
+                <option value="football">Football</option>
+                <option value="basketball">Basketball</option>
+                <option value="hockey">Hockey</option>
+                <option value="volleyball">Volleyball</option>
+                <option value="tennis">Tennis</option>
+                <option value="badminton">Badminton</option>
+            </select>
+
+            <input type="submit" value="Enroll">
+        </form>
+
+        <div class="student-list" id="studentList"></div>
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        const enrollmentForm = document.getElementById('enrollmentForm');
+        const selectedHouseElem = document.getElementById('selectedHouse');
+        const studentListElem = document.getElementById('studentList');
+        const messageElem = document.getElementById('message');
+
+        const houses = {
+            "jinnah": "Jinnah House",
+            "qadeer": "Qadeer House",
+            "iqbal": "Iqbal House",
+            "sirsyed": "Sir Syed House",
+            "kadija": "Kadija House",
+            "zaniab": "Zaniab House",
+            "maryam": "Maryam House",
+            "noor": "Noor House"
+        };
+
+        let selectedHouseKey = null;
+        let editingStudentIndex = -1;
+
+        // Load students data from localStorage for the selected house
+        const loadStudents = (houseKey) => {
+            const students = JSON.parse(localStorage.getItem('students')) || {};
+            const houseStudents = students[houseKey] || [];
+
+            studentListElem.innerHTML = ''; // Clear current list
+
+            if (houseStudents.length === 0) {
+                studentListElem.textContent = 'No students enrolled yet.';
+                return;
+            }
+
+            const table = document.createElement('table');
+            const thead = document.createElement('thead');
+            const headerRow = document.createElement('tr');
+
+            ['Name', 'Section', 'Roll No', 'Contact No', 'Sport', 'Actions'].forEach(headerText => {
+                const th = document.createElement('th');
+                th.textContent = headerText;
+                headerRow.appendChild(th);
+            });
+
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            const tbody = document.createElement('tbody');
+
+            houseStudents.forEach((student, index) => {
+                const row = document.createElement('tr');
+
+                Object.values(student).forEach(value => {
+                    const td = document.createElement('td');
+                    td.textContent = value;
+                    row.appendChild(td);
+                });
+
+                const actionsTd = document.createElement('td');
+                const editBtn = document.createElement('button');
+                editBtn.textContent = 'Edit';
+                editBtn.classList.add('edit-btn');
+                editBtn.onclick = () => editStudent(index, houseKey);
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.classList.add('delete-btn');
+                deleteBtn.onclick = () => deleteStudent(index, houseKey);
+
+                actionsTd.appendChild(editBtn);
+                actionsTd.appendChild(deleteBtn);
+                row.appendChild(actionsTd);
+
+                tbody.appendChild(row);
+            });
+
+            table.appendChild(tbody);
+            studentListElem.appendChild(table);
+        };
+
+        // Add a new student or update existing student
+        const addStudent = (event) => {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const section = document.getElementById('section').value;
+            const roll_no = document.getElementById('roll_no').value;
+            const contact_no = document.getElementById('contact_no').value;
+            const sport = document.getElementById('sport').value;
+
+            const students = JSON.parse(localStorage.getItem('students')) || {};
+            const houseStudents = students[selectedHouseKey] || [];
+
+            if (editingStudentIndex >= 0) {
+                houseStudents[editingStudentIndex] = { name, section, roll_no, contact_no, sport };
+                messageElem.textContent = 'Student updated successfully!';
+                editingStudentIndex = -1;
+            } else {
+                houseStudents.push({ name, section, roll_no, contact_no, sport });
+                messageElem.textContent = 'Student enrolled successfully!';
+            }
+
+            students[selectedHouseKey] = houseStudents;
+            localStorage.setItem('students', JSON.stringify(students));
+
+            enrollmentForm.reset();
+            loadStudents(selectedHouseKey);
+        };
+
+        // Edit student details
+        const editStudent = (index, houseKey) => {
+            const students = JSON.parse(localStorage.getItem('students')) || {};
+            const houseStudents = students[houseKey] || [];
+            const student = houseStudents[index];
+
+            document.getElementById('name').value = student.name;
+            document.getElementById('section').value = student.section;
+            document.getElementById('roll_no').value = student.roll_no;
+            document.getElementById('contact_no').value = student.contact_no;
+            document.getElementById('sport').value = student.sport;
+
+            editingStudentIndex = index;
+        };
+
+        // Delete student
+        const deleteStudent = (index, houseKey) => {
+            const students = JSON.parse(localStorage.getItem('students')) || {};
+            const houseStudents = students[houseKey] || [];
+
+            houseStudents.splice(index, 1);
+            students[houseKey] = houseStudents;
+            localStorage.setItem('students', JSON.stringify(students));
+
+            loadStudents(houseKey);
+            messageElem.textContent = 'Student deleted successfully!';
+        };
+
+        // Handle house selection
+        const houseClickHandler = (houseKey) => {
+            selectedHouseKey = houseKey;
+            selectedHouseElem.textContent = houses[houseKey];
+            enrollmentForm.style.display = 'block';
+            loadStudents(houseKey);
+        };
+
+        // Attach click handlers for each house
+        Object.keys(houses).forEach(houseKey => {
+            document.getElementById(houseKey).onclick = () => houseClickHandler(houseKey);
+        });
+
+        // Handle form submission
+        enrollmentForm.onsubmit = addStudent;
+    </script>
+</body>
+</html>

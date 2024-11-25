@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplication Table of 10</title>
+    <style>
+        /* Add some basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        marquee {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        #ali {
+            width: 200px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        p {
+            margin: 5px 0;
+            font-size: 18px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<marquee>Table of 10</marquee>
+<p id="ali"></p>
+<marquee>Table of 10</marquee>
+<script type="text/javascript">
+    var table = 10;
+    var x = "";
+    for (var i = 1; i <= 10; i++) {
+        x += "<p>" + table + " × " + i + " = " + (table * i) + "</p>";
+    }
+    document.getElementById("ali").innerHTML = x;
+</script>
+
+</body>
+</html>

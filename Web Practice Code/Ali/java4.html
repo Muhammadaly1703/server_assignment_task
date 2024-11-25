@@ -1,0 +1,97 @@
+<!Doctype>
+<html>
+<head>
+<style>
+
+button{
+padding:12px;background-color:green;color:white;
+}
+p{
+text-align:center;
+font-size:20px;
+background-color:blue;
+color:white;
+margin-left:550px;
+margin-right:550px;
+}
+
+</style>
+<body>
+<form style="text-align:center;margin-left:500px;margin-right:500px;border:2px solid black;margin-top:200px;padding-bottom:20px;padding-top:20px;background-color:red">
+
+<input id="number1" style="padding:20px;text-align:center;" type="number" placeholder="Enter first number"><br><br>
+<input id="number2" style="padding:20px;;text-align:center" type="number" placeholder="Enter second number"><br><br>
+<button id="vv" type="button" onclick="addnumber()" >+</button><button id="ll" type="button" onclick="subnumber()" >-</button>
+<button id="rr" type="button" onclick="mulnumber()" >*</button><button id="mm" type="button" onclick="dividenumber()" >/</button>
+</form>
+<p>Result 1:<span id="Result">0</span></p>
+<p>Result 2:<span id="r">0</span></p>
+<p>Result 3:<span id="e">0</span></p>
+<p>Result 4:<span id="s">0</span></p>
+
+<p id="v"></p>
+<p id="f"></p>
+<p id="p"></p>
+<p id="t"></p>
+<p id="st"></p>
+
+<script type="text/javascript">
+document.getElementById("vv").onclick=function(){
+var num1=parseFloat(document.getElementById("number1").value);
+var num2=parseFloat(document.getElementById("number2").value);
+var sum=num1+num2;
+document.getElementById("Result").textContent=sum;}
+</script>
+<script type="text/javascript">
+document.getElementById("ll").onclick=function(){
+var num1=parseFloat(document.getElementById("number1").value);
+var num2=parseFloat(document.getElementById("number2").value);
+var sub=num1-num2;
+document.getElementById("r").textContent=sub;}
+</script>
+<script type="text/javascript">
+document.getElementById("rr").onclick=function(){
+var num1=parseFloat(document.getElementById("number1").value);
+var num2=parseFloat(document.getElementById("number2").value);
+var mul=num1*num2;
+document.getElementById("e").textContent=mul;}
+</script>
+<script type="text/javascript">
+document.getElementById("mm").onclick=function(){
+var num1=parseFloat(document.getElementById("number1").value);
+var num2=parseFloat(document.getElementById("number2").value);
+var divide=num1/num2;
+document.getElementById("s").textContent=divide;}
+</script>
+<script type="text/javascript">
+var num1=34;
+var num2=56;
+var add=num1+num2;
+document.getElementById("v").innerHTML= "Add of num1 and num2 is"+add;
+</script>
+<script type="text/javascript">
+var num1=34;
+var num2=56;
+var sub=num1*num2;
+document.getElementById("f").innerHTML= "Subtract of num1 and num2 is"+sub;
+</script>
+<script type="text/javascript">
+var num1=34;
+var num2=56;
+var mul=num1-num2;
+document.getElementById("p").innerHTML= "Multiplication of num1 and num2 is"+mul;
+</script>
+<script type="text/javascript">
+var num1=34;
+var num2=56;
+var divide=num1/num2;
+document.getElementById("t").innerHTML= "Divide of num1 and num2 is"+divide;
+</script>
+<script type="text/javascript">
+var ali=["12","34","56","78"];
+ali.push(543);
+ali.splice(2,0,"ali","hassan");
+document.getElementById("st").innerHTML= ali;
+</script>
+</body>
+</html>

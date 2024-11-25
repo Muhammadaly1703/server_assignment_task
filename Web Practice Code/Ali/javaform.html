@@ -1,0 +1,62 @@
+<!Doctype >
+<html>
+<head>
+<style>
+body{background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXtK24cF8jzrH6N-mRM_KtFrSOBOKUQSTmLw&s')
+}
+button{
+background-color:red;
+color:white;
+font-size:18px;
+margin-left:15px;
+}
+div.rr{
+text-align:center;
+margin-top:50px;
+border:2px solid black;
+margin-left:650px;
+margin-right:650px;
+padding-top:10px;
+padding-bottom:10px;
+background-color:blue;
+color:white;
+}
+</style>
+</head>
+<body>
+<div class="rr" id="tt">
+<label id="ff">Name</label><br>
+<input type="text"><br>
+<label id="hh">Password</label><br>
+<input type="password"><br>
+<label id="ll">Email</label><br>
+<input type="email"><br><br>
+</div>
+<button id="mm">SUBMIT</button>
+
+<button id="show">show</button>
+<button id="hide">hide</button>
+<script type="text/javascript">
+document.getElementById("mm").onclick=function(){
+document.getElementById("ff").innerHTML="FIRST NAME";
+document.getElementById("hh").innerHTML="SECURITY";
+document.getElementById("ll").innerHTML="CREATE NEW EMAIL";
+document.getElementById("mm").innerHTML="REGISTER";
+
+
+
+document.getElementById("tt").style.backgroundColor="yellow";
+document.getElementById("mm").style.backgroundColor="green";
+document.getElementById("tt").style.color="blue";
+document.getElementById("mm").style.color="blue";
+
+}
+document.getElementById("show").onclick=function(){
+document.getElementById("rr").style.display="block";}
+document.getElementById("hide").onclick=function(){
+document.getElementById("rr").style.display="none";}
+
+
+</script>
+</body>
+<html>

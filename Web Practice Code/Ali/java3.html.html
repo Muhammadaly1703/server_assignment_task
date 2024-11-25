@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<head>   
+    <title>Registration Form</title>
+	<style>
+	div.ali{
+	margin-left:600px;
+	margin-right:600px;
+	text-align:center;
+	background-color:red;
+	color:white;
+	font-size:20px;
+	margin-top:100px;
+	padding-bottom:20px;
+	padding-top:20px;
+	
+	
+	
+	
+	}
+	button{
+	background-color:blue;
+color:white;
+font-size:18px;
+margin-left:15px;
+
+	
+	}
+	</style>
+</head>
+<body>
+    <div class="ali"id="mm">
+
+    <h2>Register</h2>
+        <label id="ll">First Name:</label><br>
+        <input type="text"><br><br>
+		
+		
+		
+
+		
+		
+        
+        <label id="ff">Last Name:</label><br>
+        <input type="text"><br><br>
+        
+        <label id="yy">Email:</label><br>
+        <input type="email"><br><br>
+        
+        <label id="zz">Password:</label><br>
+        <input type="password"><br><br>
+        
+        <label id="bb">Date of Birth:</label><br>
+        <input type="date" ><br>
+	  
+        <p id="dd">BASIC FORM</p> 
+       <button id="rr">SUBMIT</button>
+</div>
+<script type="text/javascript">
+
+document.getElementById("rr").onclick=function(){
+document.getElementById("dd").innerHTML="ALLOW TO FILL THIS FORM";
+document.getElementById("ll").innerHTML="REAL NAME";
+document.getElementById("ff").innerHTML="FAKE NAME";
+document.getElementById("yy").innerHTML="NEW EMAIL CREATE";
+document.getElementById("zz").innerHTML="SECURITY";
+document.getElementById("bb").innerHTML="YOUR BIRTH DATE";
+
+document.getElementById("mm").style.backgroundColor="yellow";
+document.getElementById("rr").style.backgroundColor="green";
+document.getElementById("mm").style.color="blue";
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            background-color: #f4f4f4;
+        }
+        .sidebar {
+            width: 200px;
+            background:  #3498db;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+        }
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .button {
+            background: #555;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+            margin: 10px 0;
+        }
+        .button:hover {
+            background: #777;
+        }
+        .container {
+            flex: 1;
+            padding: 20px;
+        }
+        .tab {
+            display: none;
+        }
+        .tab.active {
+            display: block;
+        }
+        .input-field {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 10px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color:  #3498db;
+            border-radius: 8px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #333;
+            color: white;
+        }
+        td {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .status.passed {
+            background-color: #4caf50;
+            color: white;
+        }
+        .status.failed {
+            background-color: #f44336;
+            color: white;
+        }
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .delete-btn:hover {
+            background-color: #e53935;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Student Dashboard</h2>
+    <button class="button" onclick="showTab('addStudentTab')">Add New Student</button>
+    <button class="button" onclick="showTab('addMarksTab')">Add Marks</button>
+    <button class="button" onclick="showTab('viewResultsTab')">View Results</button>
+    <button class="button" onclick="showTab('viewAllStudentsTab')">View All Students</button>
+</div>
+
+<div class="container">
+    <!-- Add New Student Tab -->
+    <div id="addStudentTab" class="tab active">
+        <h2>Add New Student</h2>
+        <form id="addStudentForm">
+            <input type="text" id="newStudentName" class="input-field" placeholder="Student Name" required><br>
+            <input type="text" id="newStudentRollNo" class="input-field" placeholder="Roll Number" required><br>
+            <input type="text" id="newStudentCourse" class="input-field" placeholder="Course" required><br>
+            <button type="submit" class="button">Add Student</button>
+        </form>
+    </div>
+
+    <!-- Add Marks Tab -->
+    <div id="addMarksTab" class="tab">
+        <h2>Add Marks for Student</h2>
+        <input type="text" id="searchRollNoMarks" class="input-field" placeholder="Enter Roll No to Search" oninput="searchStudentForMarks()">
+        <div id="marksFormContainer"></div>
+    </div>
+
+    <!-- View Results Tab -->
+    <div id="viewResultsTab" class="tab">
+        <h2>View Student Results</h2>
+        <input type="text" id="searchRollNoResults" class="input-field" placeholder="Enter Roll No to Search" oninput="searchResults()">
+        <div id="resultsContainer"></div>
+    </div>
+
+    <!-- View All Students Tab -->
+    <div id="viewAllStudentsTab" class="tab">
+        <h2>All Students</h2>
+        <div id="allStudentsContainer"></div>
+    </div>
+</div>
+
+<script>
+    // Initialize student data from localStorage, or use an empty array if not found
+    let studentData = JSON.parse(localStorage.getItem('students')) || [];
+
+    // Add new student
+    document.getElementById('addStudentForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const studentName = document.getElementById('newStudentName').value;
+        const studentRollNo = document.getElementById('newStudentRollNo').value;
+        const studentCourse = document.getElementById('newStudentCourse').value;
+
+        // Create a new student object
+        const newStudent = {
+            id: Date.now().toString(),
+            name: studentName,
+            rollNo: studentRollNo,
+            course: studentCourse,
+            subjects: { Math: 0, Physics: 0, "Computer Science": 0 },
+            totalMarks: 300,  // Assuming total marks for all subjects is 300
+            obtainedMarks: 0,
+            status: "",
+        };
+
+        // Add the new student to the data array and save to localStorage
+        studentData.push(newStudent);
+        localStorage.setItem('students', JSON.stringify(studentData));
+
+        displayStudentList();
+        document.getElementById('addStudentForm').reset();
+    });
+
+    // Display the form for adding marks to the selected student by searching for their roll number
+    function searchStudentForMarks() {
+        const rollNo = document.getElementById('searchRollNoMarks').value.toLowerCase();
+        const student = studentData.find(student => student.rollNo.toLowerCase() === rollNo);
+        const marksFormContainer = document.getElementById('marksFormContainer');
+
+        marksFormContainer.innerHTML = ''; // Clear the previous form content
+
+        if (student) {
+            // Display marks entry form for the found student
+            marksFormContainer.innerHTML = ` 
+                <h3>Enter Marks for ${student.name}</h3>
+                <input type="number" id="mathMarks" class="input-field" placeholder="Math Marks (out of 100)" value="${student.subjects.Math}" min="0" max="100"><br>
+                <input type="number" id="physicsMarks" class="input-field" placeholder="Physics Marks (out of 100)" value="${student.subjects.Physics}" min="0" max="100"><br>
+                <input type="number" id="csMarks" class="input-field" placeholder="Computer Science Marks (out of 100)" value="${student.subjects['Computer Science']}" min="0" max="100"><br>
+                <button type="button" class="button" onclick="saveMarks('${student.id}')">Save Marks</button>
+            `;
+        } else {
+            marksFormContainer.innerHTML = `<p>No student found with roll number ${rollNo}</p>`;
+        }
+    }
+
+    // Save the marks for the selected student
+    function saveMarks(studentId) {
+        const student = studentData.find(student => student.id === studentId);
+        
+        if (!student) return;
+
+        // Get the entered marks from the input fields
+        const mathMarks = parseInt(document.getElementById('mathMarks').value) || 0;
+        const physicsMarks = parseInt(document.getElementById('physicsMarks').value) || 0;
+        const csMarks = parseInt(document.getElementById('csMarks').value) || 0;
+
+        // Update the student's subjects and total marks
+        student.subjects.Math = mathMarks;
+        student.subjects.Physics = physicsMarks;
+        student.subjects["Computer Science"] = csMarks;
+        student.obtainedMarks = mathMarks + physicsMarks + csMarks;
+
+        // Set the status based on the total marks
+        student.status = student.obtainedMarks >= 150 ? 'Passed' : 'Failed';
+
+        // Save the updated student data in localStorage
+        localStorage.setItem('students', JSON.stringify(studentData));
+
+        displayStudentList();
+    }
+
+    // Search for and display the results of a student based on their roll number
+    function searchResults() {
+        const rollNo = document.getElementById('searchRollNoResults').value.toLowerCase();
+        const student = studentData.find(student => student.rollNo.toLowerCase() === rollNo);
+        const resultsContainer = document.getElementById('resultsContainer');
+
+        resultsContainer.innerHTML = ''; // Clear previous results
+
+        if (student) {
+            resultsContainer.innerHTML = `
+                <h3>Results for ${student.name}</h3>
+                <table>
+                    <tr><th>Roll No</th><td>${student.rollNo}</td></tr>
+                    <tr><th>Course</th><td>${student.course}</td></tr>
+                    <tr><th>Math Marks</th><td>${student.subjects.Math}</td></tr>
+                    <tr><th>Physics Marks</th><td>${student.subjects.Physics}</td></tr>
+                    <tr><th>Computer Science Marks</th><td>${student.subjects['Computer Science']}</td></tr>
+                    <tr><th>Total Marks</th><td>${student.obtainedMarks} / 300</td></tr>
+                    <tr><th>Status</th><td><span class="status ${student.status.toLowerCase()}">${student.status}</span></td></tr>
+                </table>
+            `;
+        } else {
+            resultsContainer.innerHTML = `<p>No results found for roll number ${rollNo}</p>`;
+        }
+    }
+
+    // Display the list of all students
+    function displayStudentList() {
+        const allStudentsContainer = document.getElementById('allStudentsContainer');
+        allStudentsContainer.innerHTML = `
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Roll No</th>
+                        <th>Course</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${studentData.map(student => `
+                        <tr>
+                            <td>${student.name}</td>
+                            <td>${student.rollNo}</td>
+                            <td>${student.course}</td>
+                            <td><button class="delete-btn" onclick="deleteStudent('${student.id}')">Delete</button></td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+    }
+
+    // Delete a student from the data
+    function deleteStudent(studentId) {
+        studentData = studentData.filter(student => student.id !== studentId);
+        localStorage.setItem('students', JSON.stringify(studentData));
+        displayStudentList();
+    }
+
+    // Show the selected tab
+    function showTab(tabId) {
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => tab.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+    }
+
+    // Initial call to display all students
+    displayStudentList();
+</script>
+</body>
+</html>
